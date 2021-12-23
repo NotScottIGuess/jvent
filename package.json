@@ -1,6 +1,6 @@
 {
   "name": "@notscottiguess/jvent",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Simple event system for events between objects",
   "main": "jvent.js",
   "type": "module",
