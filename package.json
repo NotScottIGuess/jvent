@@ -1,5 +1,5 @@
 {
-  "name": "jvent",
+  "name": "@notscottiguess/jvent",
   "version": "1.0.0",
   "description": "Simple event system for events between objects",
   "main": "jvent.js",
