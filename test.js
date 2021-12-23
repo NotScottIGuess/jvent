@@ -1,5 +1,7 @@
 const JVent = require("./jvent.js");
 
+const hearts = [];
+
 class Animal {
 
     constructor(name){
@@ -8,13 +10,15 @@ class Animal {
             hungry: new JVent("animal hungry"),
             thirsty: new JVent("animal thirsty")
         };
-        this.heart = setInterval(() => {
-            const brain = Math.random();
-            if(brain > 0.6){
-                const events = Object.values(this.events);
-                events[Math.floor(Math.random() * events.length)].fire(Date.now());
-            }
-        }, 100);
+        hearts.push(
+            setInterval(() => {
+                const brain = Math.random();
+                if(brain > 0.6){
+                    const events = Object.values(this.events);
+                    events[Math.floor(Math.random() * events.length)].fire(Date.now());
+                }
+            }, 100)
+        );
     }
 
 }
@@ -69,16 +73,16 @@ class Owner{
 
 }
 
+setTimeout(() => {
+    hearts.forEach(heart => clearInterval(heart));
+}, 3000)
+
 const me = new Owner("My");
-
-console.log("feed" in me);
-
 me.addCat(new Cat("C1"));
 me.addCat(new Cat("C2"));
 me.addCat(new Cat("C3"));
 me.addCat(new Cat("C4"));
 me.addCat(new Cat("C5"));
-
 me.addDog(new Dog("D1"));
 me.addDog(new Dog("D2"));
 me.addDog(new Dog("D3"));
