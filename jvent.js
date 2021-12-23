@@ -36,17 +36,20 @@ class JVent{
     }
 
     fire(data){
-        this.subscriptions.forEach((method, context) => {
-            if(context === null){
-                method(data);
-            } else if(typeof method !== 'string' || !(method in context)) {
-                throw `Cannot call ${method} on context as the it does not exist. context: ${context}`;
-            } else {
-                context[method].call(context, data);
-            }
+        this.subscriptions.forEach((methodSet, context) => {
+            methodSet.forEach(method => {
+                if(context === null){
+                    method(data);
+                } else if(typeof method !== 'string' || !(method in context)) {
+                    console.log(typeof method, JSON.stringify(method), context[method], method in context)
+                    throw `Cannot call ${method} on context as the it does not exist. context: ${context}`;
+                } else {
+                    context[method].call(context, data);
+                }
+            });
         });
     }
 
 }
 
-export default JVent;
+module.exports = JVent;
