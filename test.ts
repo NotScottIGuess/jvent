@@ -53,6 +53,9 @@ class Owner{
     name:string;
     pets = {};
 
+    standardHandler:Function = () => {};
+    arrowHandler:Function = () => {};
+
     constructor(name:string){
         this.name = name;
     }
@@ -63,20 +66,29 @@ class Owner{
 
     addAnimal(animal:Animal){
         animal.events.hungry.add(this, "feed");
-        animal.events.thirsty.add((e:any) => {
+        animal.events.thirsty.add(this.arrowHandler = (e:any) => {
             console.log(e + `: ${this.name}'s ${animal.name} thirsty`);
         })
     }
 
     addCat(cat:Cat){
         this.addAnimal(cat);
-        cat.events.attack.add(function(e:any){
+        
+        this.standardHandler = function(e:any){
             console.log(e + `: owner's ${cat.name} attacked)`)
-        })
+        }
+        cat.events.attack.add(this.standardHandler);
     }
 
     addDog(dog:Dog){
         this.addAnimal(dog)
+    }
+
+    sellAnimal(animal:Animal){
+        animal.events.hungry.remove(this, "feed");
+        animal.events.attack.remove(this.standardHandler);
+        animal.events.thirsty.remove(this.arrowHandler);
+        console.log("SOLD: " + animal.name)
     }
 
 }
@@ -86,11 +98,12 @@ setTimeout(() => {
 }, 3000)
 
 const me = new Owner("My");
-me.addCat(new Cat("C1"));
-me.addCat(new Cat("C2"));
-me.addCat(new Cat("C3"));
-me.addCat(new Cat("C4"));
-me.addCat(new Cat("C5"));
+const cats = [new Cat("C1"), new Cat("C2"), new Cat("C3"), new Cat("C4"), new Cat("C5")]
+me.addCat(cats[0]);
+me.addCat(cats[1]);
+me.addCat(cats[2]);
+me.addCat(cats[3]);
+me.addCat(cats[4]);
 me.addDog(new Dog("D1"));
 me.addDog(new Dog("D2"));
 me.addDog(new Dog("D3"));

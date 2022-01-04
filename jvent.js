@@ -24,8 +24,10 @@ class JVent {
             this.subscriptions.clear();
         }
         else if (method === undefined) {
-            this.contexts.delete(context);
-            this.subscriptions.delete(context);
+            this.subscriptions.set(null, this.subscriptions.get(null).filter((callback) => {
+                console.log(callback.toString(), context.toString(), callback === context);
+                return callback !== context;
+            }));
         }
         else {
             this.subscriptions.set(context, this.subscriptions.get(context).filter((v) => v !== method));
